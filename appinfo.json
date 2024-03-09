@@ -1,0 +1,11 @@
+{
+    "id": "com.stremio.web",
+    "version": "1.0.0",
+    "vendor": "Stremio",
+    "type": "web",
+    "main": "index.html",
+    "title": "Stremio",
+    "icon": "icon.png",
+    "largeIcon": "largeIcon.png",
+    "bgImage": "bgImage.png"
+  }
