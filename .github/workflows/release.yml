@@ -1,0 +1,80 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ares-cli
+        run: npm i -g @webosose/ares-cli
+
+      - name: Build
+        run: make build
+
+      - name: Package
+        run: make package
+
+      - name: Get version
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Generate manifest
+        run: |
+          IPK="io.strem.tv_${{ steps.version.outputs.version }}_all.ipk"
+          SHA256=$(sha256sum "$IPK" | cut -d' ' -f1)
+          SIZE=$(stat --format=%s "$IPK")
+          cat > manifest.json << EOF
+          {
+            "id": "io.strem.tv",
+            "version": "${{ steps.version.outputs.version }}",
+            "type": "web",
+            "title": "Stremio",
+            "iconUri": "https://raw.githubusercontent.com/${{ github.repository }}/main/app/icon.png",
+            "sourceUrl": "https://github.com/${{ github.repository }}",
+            "rootRequired": false,
+            "ipkUrl": "$IPK",
+            "ipkHash": {
+              "sha256": "$SHA256"
+            },
+            "ipkSize": $SIZE
+          }
+          EOF
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            io.strem.tv_${{ steps.version.outputs.version }}_all.ipk
+            manifest.json
+
+      - name: Update Homebrew repo
+        run: |
+          MANIFEST_URL="https://github.com/${{ github.repository }}/releases/latest/download/manifest.json"
+          mkdir -p repo
+          cat > repo/apps.json << EOF
+          [
+            {
+              "id": "io.strem.tv",
+              "title": "Stremio",
+              "iconUri": "https://raw.githubusercontent.com/${{ github.repository }}/main/app/icon.png",
+              "manifestUrl": "$MANIFEST_URL",
+              "category": "multimedia",
+              "description": "Stremio for webOS with working audio track selection."
+            }
+          ]
+          EOF
+
+      - name: Deploy repo to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./repo

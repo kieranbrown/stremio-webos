@@ -1,0 +1,70 @@
+--- video.chunk.js	2026-03-30 20:44:17
++++ video.chunk.js	2026-03-30 20:26:19
+@@ -21049,7 +21049,66 @@
+                     G("buffering"), G("buffered")
+                 }, A.onloadeddata = function() {
+                     G("buffering"), G("buffered")
+-                }, A.onloadedmetadata = function() {
++                }, A.audioTracks && A.audioTracks.addEventListener && A.audioTracks.addEventListener("addtrack", function() {
++                setTimeout(function() {
++                    if (A.audioTracks && A.audioTracks.length > 0) {
++                        T = [];
++                        Array.from(A.audioTracks).forEach(function(e, t) {
++                            T.push({
++                                id: "EMBEDDED_" + t,
++                                lang: e.language || "und",
++                                label: e.label || null,
++                                origin: "EMBEDDED",
++                                embedded: !0,
++                                mode: e.enabled ? "showing" : "disabled"
++                            });
++                            if (e.enabled) v = "EMBEDDED_" + t;
++                        });
++                        // Try to enrich labels from streaming server track data
++                        if (D && D.url) {
++                            o(D.url, function(trackData) {
++                                if (trackData && trackData.audio && trackData.audio.length) {
++                                    T.forEach(function(track, i) {
++                                        // Match by language code to find the right metadata
++                                        for (var j = 0; j < trackData.audio.length; j++) {
++                                            var td = trackData.audio[j];
++                                            if ((td.lang === track.lang || (td.lang && track.lang && td.lang.substring(0,2) === track.lang.substring(0,2))) && td.label) {
++                                                track.label = td.label;
++                                                trackData.audio.splice(j, 1);
++                                                break;
++                                            }
++                                        }
++                                    });
++                                    G("audioTracks");
++                                }
++                            });
++                        }
++                        // Auto-select preferred audio language from Stremio settings
++                        var prefLang = null;
++                        try { prefLang = JSON.parse(localStorage.getItem("profile")).settings.audioLanguage; } catch(e) {}
++                        var prefIdx = -1;
++                        if (prefLang) {
++                            for (var ai = 0; ai < A.audioTracks.length; ai++) {
++                                var tl = A.audioTracks[ai].language || "";
++                                if (tl === prefLang || tl.substring(0,2) === prefLang.substring(0,2)) {
++                                    prefIdx = ai; break;
++                                }
++                            }
++                        }
++                        if (prefIdx >= 0) {
++                            for (var aj = 0; aj < A.audioTracks.length; aj++) A.audioTracks[aj].enabled = (aj === prefIdx);
++                            v = "EMBEDDED_" + prefIdx;
++                            T.forEach(function(track, i) { track.mode = i === prefIdx ? "showing" : "disabled"; });
++                            if (A.mediaId) l({ method: "selectTrack", parameters: { type: "audio", mediaId: A.mediaId, index: prefIdx }});
++                        } else if (!v && T.length) {
++                            v = "EMBEDDED_0";
++                        }
++                        G("audioTracks");
++                        G("selectedAudioTrackId");
++                    }
++                }, 100);
++            });
++            A.onloadedmetadata = function() {
+                     G("buffering"), G("buffered"), V("time", C)
+                 }, A.onvolumechange = function() {
+                     G("volume"), G("muted")
