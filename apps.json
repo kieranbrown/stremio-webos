@@ -1,0 +1,10 @@
+[
+  {
+    "id": "io.strem.tv",
+    "title": "Stremio",
+    "iconUri": "https://raw.githubusercontent.com/kieranbrown/stremio-webos/main/app/icon.png",
+    "manifestUrl": "https://github.com/kieranbrown/stremio-webos/releases/latest/download/manifest.json",
+    "category": "multimedia",
+    "description": "Stremio for webOS with working audio track selection."
+  }
+]
