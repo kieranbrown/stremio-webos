@@ -1,65 +1,58 @@
-# Stremio WebOS
+# Stremio for webOS
 
-Disclaimer: Yes, this is just a hosted web app and
-it may not be for you.
+Custom Stremio app for LG webOS TVs with working audio track selection.
 
-This is designed for those who don't want
-to spend money on a ad-filled Firestick or other
-streming device when they have a perfectly good LG TV
-sat in their living room ready to use.
+The official Stremio app has a bug where audio tracks don't match what actually plays — selecting "English" might play Russian. This build fixes that by reading tracks from the TV's native media pipeline instead of the streaming server's metadata.
 
-If you already have such a device, then this probably
-isn't for you.
+Built from [Stremio Theater v1.9.2](https://github.com/NoobyGains/stremio-vidaa-tv) with the official Stremio streaming server.
 
 ## Prerequisites
 
-> If you have your TV rooted your installation might be slightly different, follow [this guide](https://www.webosbrew.org/pages/sdk-configuration.html#configuring-webososeares-cli-with-rooted-tv) to enable SSH and ignore the Developer Mode steps.
+1. Install the [webOS ares CLI](https://www.npmjs.com/package/@webosose/ares-cli) — `npm i -g @webosose/ares-cli` (requires Node.js 20 for SSH compatibility)
+2. Either enable [Developer Mode](https://webostv.developer.lge.com/develop/getting-started/developer-mode-app) on your TV, or have [Homebrew Channel](https://github.com/webosbrew/webos-homebrew-channel) installed
+3. Configure your TV as a device — `ares-setup-device`
 
-1. Clone this repo
+> **Note:** Developer Mode expires after 1000 hours and any sideloaded apps will be uninstalled. Rooted TVs with Homebrew Channel do not have this limitation.
 
-2. [Install the Developer Mode App](https://webostv.developer.lge.com/develop/getting-started/developer-mode-app#installing-developer-mode-app)
+## Install via Homebrew Channel
 
-3. [Turn Developer Mode On](https://webostv.developer.lge.com/develop/getting-started/developer-mode-app#turning-developer-mode-on)
+If your TV is rooted with [Homebrew Channel](https://github.com/webosbrew/webos-homebrew-channel):
 
-4. [Install the ares CLI](https://github.com/webos-tools/cli#installation)
+1. Open Homebrew Channel on your TV
+2. Go to settings and add this repository: `https://kieranbrown.github.io/stremio-webos/apps.json`
+3. Find Stremio in the app list and install
 
-5. Follow the [Connecting with CLI](https://webostv.developer.lge.com/develop/getting-started/developer-mode-app#connecting-with-cli) docs to add your TV configuration to the CLI
-    - Remember the device name you use during setup
-    as you'll need this when packaging and deploying
+## Install manually
 
-## App Installation
+```sh
+make deploy
+```
 
-Once you have your TV and CLI ready, the final steps
-are to package and install the app.
+This downloads all dependencies, builds the app, packages the IPK, installs it on your TV, and launches it.
 
-### Package Command
+Replace the default device name if needed: `make deploy DEVICE=myTV`
 
-`ares-package -e "cli" -e ".gitignore" -e "readme.md" .`
+### Other commands
 
-### Install Command
+```sh
+make build     # Download dependencies + build (no install)
+make package   # Build + create IPK
+make restart   # Close + relaunch on TV
+make clean     # Remove build artifacts
+```
 
-> Replace `tv2` with the device name you used during setup.
+## Auto-start on input select
 
-`ares-install --device tv2 ./com.stremio.web_1.0.0_all.ipk`
+On rooted TVs, you can register Stremio as an input source so it appears in the TV's input list and can auto-launch:
 
----
+```sh
+luna-send-pub -n 1 'luna://com.webos.service.eim/addDevice' '{"appId":"io.strem.tv","pigImage":""}'
+```
 
-Congratulations, now you have Stremio installed on
-your TV.
+Run this via SSH on the TV.
 
-Open the app, connect your account and start watching :)
+## Credits
 
-## Post Installation Instructions
-
-If your TV is not rooted (which isn't possible anymore)
-you will have to find a method to extend Dev Mode
-automatically as it expires after 1000 hours and any
-custom apps will be uninstalled.
-
-Unfortunately, I don't have any recommendations on the
-best approach as my TV is rooted, however the following
-links might give some guidance.
-
-- https://www.reddit.com/r/jellyfin/comments/ryowwb/i_created_a_simple_script_to_renew_the_devmode_on/
-
-- https://www.youtube.com/watch?v=Q9dIlRHJP_s
+- [Stremio](https://www.stremio.com/)
+- [NoobyGains/stremio-vidaa-tv](https://github.com/NoobyGains/stremio-vidaa-tv) — Theater frontend
+- [webOS Homebrew Project](https://www.webosbrew.org/)
