@@ -1,10 +1,18 @@
-[
-  {
-    "id": "io.strem.tv",
-    "title": "Stremio",
-    "iconUri": "https://raw.githubusercontent.com/kieranbrown/stremio-webos/main/app/icon.png",
-    "manifestUrl": "https://github.com/kieranbrown/stremio-webos/releases/latest/download/manifest.json",
-    "category": "multimedia",
-    "description": "Stremio for webOS with working audio track selection."
-  }
-]
+{
+  "paging": {
+    "page": 1,
+    "count": 1,
+    "maxPage": 1,
+    "itemsTotal": 1
+  },
+  "packages": [
+    {
+      "id": "io.strem.tv",
+      "title": "Stremio",
+      "iconUri": "https://raw.githubusercontent.com/kieranbrown/stremio-webos/main/app/icon.png",
+      "manifestUrl": "https://github.com/kieranbrown/stremio-webos/releases/latest/download/manifest.json",
+      "pool": "main",
+      "shortDescription": "Stremio for webOS with working audio track selection."
+    }
+  ]
+}
