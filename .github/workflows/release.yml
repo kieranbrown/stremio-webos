@@ -6,7 +6,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
 
 jobs:
   release:
@@ -55,26 +54,3 @@ jobs:
           files: |
             io.strem.tv_${{ steps.version.outputs.version }}_all.ipk
             manifest.json
-
-      - name: Update Homebrew repo
-        run: |
-          MANIFEST_URL="https://github.com/${{ github.repository }}/releases/latest/download/manifest.json"
-          mkdir -p repo
-          cat > repo/apps.json << EOF
-          [
-            {
-              "id": "io.strem.tv",
-              "title": "Stremio",
-              "iconUri": "https://raw.githubusercontent.com/${{ github.repository }}/main/app/icon.png",
-              "manifestUrl": "$MANIFEST_URL",
-              "category": "multimedia",
-              "description": "Stremio for webOS with working audio track selection."
-            }
-          ]
-          EOF
-
-      - name: Deploy repo to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./repo

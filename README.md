@@ -19,7 +19,7 @@ Built from [Stremio Theater v1.9.2](https://github.com/NoobyGains/stremio-vidaa-
 If your TV is rooted with [Homebrew Channel](https://github.com/webosbrew/webos-homebrew-channel):
 
 1. Open Homebrew Channel on your TV
-2. Go to settings and add this repository: `https://kieranbrown.github.io/stremio-webos/apps.json`
+2. Go to settings and add this repository: `https://raw.githubusercontent.com/kieranbrown/stremio-webos/main/apps.json`
 3. Find Stremio in the app list and install
 
 ## Install manually
