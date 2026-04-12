@@ -7,11 +7,12 @@ var fs = require('fs');
 var path = require('path');
 var Service = require('webos-service');
 
-var service = new Service('io.strem.tv.server');
+// Use a generous idle timeout (30s) to prevent the default 5s timer from
+// killing the service before the async keepAlive activity is registered.
+var service = new Service('io.strem.tv.server', undefined, { idleTimer: 30 });
 var ready = false;
 var pendingMessages = [];
 
-// Keep the service alive indefinitely
 service.activityManager.create('keepAlive', function() {});
 
 // Register the start method — responds once the HTTP server is listening
@@ -54,16 +55,26 @@ function proxyToStreaming(req, res) {
     req.pipe(proxy);
 }
 
-// Single server: static files first, then proxy to streaming server
-http.createServer(function(req, res) {
-    var urlPath = req.url.split('?')[0];
-    serveStatic(urlPath, res, function() { proxyToStreaming(req, res); });
-}).listen(8080, function() {
+function respondReady() {
     ready = true;
-    // Respond to any start calls that arrived before the server was ready
     pendingMessages.forEach(function(msg) { msg.respond({ ready: true }); });
     pendingMessages = [];
+}
+
+// Single server: static files first, then proxy to streaming server
+var server = http.createServer(function(req, res) {
+    var urlPath = req.url.split('?')[0];
+    serveStatic(urlPath, res, function() { proxyToStreaming(req, res); });
 });
 
+server.on('error', function(err) {
+    if (err.code === 'EADDRINUSE') {
+        // Port still held from a previous instance — it's already running
+        respondReady();
+    }
+});
+
+server.listen(8080, respondReady);
+
 // Start the streaming server
-require('./server.js');
+try { require('./server.js'); } catch (e) { /* server.js may fail on first boot */ }
