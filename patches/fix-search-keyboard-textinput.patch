@@ -1,0 +1,11 @@
+--- main.js	2026-04-12 12:03:47
++++ main.js	2026-04-12 12:03:53
+@@ -2799,7 +2799,7 @@
+                 };
+                 return (0, o.Rc)((() => {
+                     e.autoFocus && n()
+-                })), (u = Xt()).addEventListener("submit", c), u.addEventListener("change", s), u.addEventListener("keydown", function(t){if("Enter"===t.key||13===t.keyCode||"Select"===t.key){var n=t.target.value;e.onSubmit&&e.onSubmit(n);e.onChange&&e.onChange(n)}}), u.addEventListener("blur", function(){var n=u.value;if(n&&n.length>0){e.onSubmit&&e.onSubmit(n);e.onChange&&e.onChange(n)}}), u.addEventListener("input", function(){var n=u.value;if(n&&n.length>0){e.onChange&&e.onChange(n)}}), (function(){var _lastVal="";var _poll=setInterval(function(){if(!u||!u.parentNode){clearInterval(_poll);return}var v=u.value||"";if(v!==_lastVal){_lastVal=v;if(v.length>0){e.onChange&&e.onChange(v)}else{e.onChange&&e.onChange("")}}},500)})(), u.$$input = l, u.$$click = a, (0, r.Yx)(t, u), (0, o.gb)((t => {
++                })), (u = Xt()).addEventListener("submit", c), u.addEventListener("change", s), u.addEventListener("keydown", function(t){if("Enter"===t.key||13===t.keyCode||"Select"===t.key){var n=t.target.value;e.onSubmit&&e.onSubmit(n);e.onChange&&e.onChange(n)}}), u.$$input = l, u.$$click = a, (0, r.Yx)(t, u), (0, o.gb)((t => {
+                     var n = C()(e.class, Jt["text-input"]),
+                         o = e.placeholder;
+                     return n !== t.e && (0, r.s7)(u, t.e = n), o !== t.t && (0, r.Bq)(u, "placeholder", t.t = o), t

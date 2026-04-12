@@ -1,0 +1,11 @@
+--- search.chunk.js	2026-04-12 12:03:47
++++ search.chunk.js	2026-04-12 12:03:54
+@@ -181,7 +181,7 @@
+                             query: e
+                         } = h();
+                         e && (v.load(e), v.loadCatalogs(0))
+-                    })), function(){var _pv="",_pi=setInterval(function(){try{var el=document.querySelector('input[type="text"]')||document.querySelector('input[placeholder]')||document.querySelector('input');if(!el)return;var cv=el.value||"";if(cv!==_pv){_pv=cv;if(cv.length>0){P(cv)}else if(_pv===""){P("")}}}catch(e){}},100);(0,a.Ki)(function(){clearInterval(_pi)})}(), (0, a.Ki)((() => {
++                    })), (0, a.Ki)((() => {
+                         v.unload()
+                     })), (0, a.a0)(l.YW, {
+                         get class() {
