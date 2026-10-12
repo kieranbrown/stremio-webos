@@ -30,7 +30,11 @@ service/              # webOS service
 
 patches/              # Patches applied to Vidaa frontend files during build
   video.chunk.js.patch
+
+tv/                   # New Apple TV-style frontend (Solid + Vite), prototype, not yet packaged
 ```
+
+`tv/` is a separate npm project: `cd tv && npm install && npm run build` (targets Chromium 87 for webOS 22). See `tv/README.md`.
 
 ## How it works
 
