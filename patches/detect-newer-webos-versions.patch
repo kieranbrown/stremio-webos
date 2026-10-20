@@ -1,0 +1,11 @@
+--- main.js
++++ main.js
+@@ -251,7 +251,7 @@
+                     "Mozilla/5.0 (Web0S; Linux/SmartTV) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36 WebAppManager": 5,
+                     "Mozilla/5.0 (Web0S; Linux/SmartTV) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.34 Safari/537.36 WebAppManager": 4,
+                     "Mozilla/5.0 (Web0S; Linux/SmartTV) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.2.1 Chrome/38.0.2125.122 Safari/537.36 WebAppManager": 3
+-                }[navigator.userAgent] || 0);
++                }[navigator.userAgent] || (/Web0S/.test(navigator.userAgent) ? 26 : 0));
+             n(5894);
+             const a = () => {
+                     const e = navigator.userAgent.match(/Tizen (\d+\.\d+)/i);
