@@ -6,6 +6,14 @@ The official Stremio app has a bug where it always plays the first audio track i
 
 Built from [Stremio Theater v1.9.2](https://github.com/NoobyGains/stremio-vidaa-tv) with the official Stremio streaming server.
 
+## Compatibility
+
+This build targets **LG TVs from 2020 onward running webOS 5.0 or later**, matching the model-year baseline for [Stremio's official LG app](https://www.stremio.com/downloads). This community build has not been tested on every model.
+
+**webOS 4.x and earlier (2019 and older LG TVs) are not supported.** Both the Theater frontend and the bundled streaming server depend on newer runtimes. LG documents Chromium 53 and Node.js 0.12.2 for webOS 4.x, compared with Chromium 68 and Node.js 8.12.0 for webOS 5.x. See LG's [web engine versions](https://webostv.developer.lge.com/develop/specifications/web-api-and-web-engine) and [JavaScript service runtimes](https://webostv.developer.lge.com/develop/guides/js-service-basics).
+
+Installing through Developer Mode or Homebrew Channel does not remove these runtime requirements. Supporting older TVs would require compatibility work on both the frontend and the streaming server.
+
 ## Prerequisites
 
 1. Install the [webOS ares CLI](https://www.npmjs.com/package/@webosose/ares-cli) — `npm i -g @webosose/ares-cli` (requires Node.js 20 for SSH compatibility)
