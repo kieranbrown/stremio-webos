@@ -49,12 +49,6 @@ make restart   # Close + relaunch on TV
 make clean     # Remove build artifacts
 ```
 
-## Subtitle size
-
-Choose a default in **Settings → Playback → Subtitles → Size**, or adjust it from the subtitle menu during playback. Presets include **50%, 75% and 85%**, and the player controls adjust the size in **5% steps** from 50% to 200%.
-
-Downloaded/addon subtitles scale to the selected percentage. Native embedded subtitles use the TV's fixed font presets: every setting below 100% selects the smallest native size, so these settings can look identical for embedded tracks.
-
 ## Auto-start on input select
 
 On rooted TVs, you can register Stremio as an input source so it appears in the TV's input list and can auto-launch:
