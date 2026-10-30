@@ -55,7 +55,7 @@ Adds an `addtrack` event handler to the WebOsVideo player's `<video>` element. T
 
 ## Deploy
 
-Requires `@webosose/ares-cli` (install with `npm i -g @webosose/ares-cli`, needs Node 20 for SSH compatibility). The TV must be configured as device `tv` in ares (`ares-setup-device`).
+Requires `@webos-tools/cli` (install with `npm i -g @webos-tools/cli@3.2.6`, needs Node 20 or later; releases use Node 24). Uninstall `@webosose/ares-cli` first if present: it can produce zero IPK timestamps that older TVs reject with `-5: ipk verified failed`. `make package` validates the archive timestamps using `scripts/check-ipk.py`. The TV must be configured as device `tv` in ares (`ares-setup-device`).
 
 ```sh
 make deploy    # build + package + install + launch

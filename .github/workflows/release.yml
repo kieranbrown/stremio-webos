@@ -20,8 +20,12 @@ jobs:
       - name: Set version in appinfo.json
         run: jq --arg v "${{ steps.version.outputs.version }}" '.version = $v' app/appinfo.json > tmp.json && mv tmp.json app/appinfo.json
 
-      - name: Install ares-cli
-        run: npm i -g @webosose/ares-cli
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install webOS CLI
+        run: npm i -g @webos-tools/cli@3.2.6
 
       - name: Build
         run: make build

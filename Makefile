@@ -43,6 +43,7 @@ build: service/server.js service/bin/ffmpeg service/bin/ffprobe
 package: build
 	@rm -f $(IPK)
 	@ares-package --no-minify app service -o .
+	@python3 scripts/check-ipk.py $(IPK)
 
 deploy: package
 	@for i in 1 2 3 4 5; do \

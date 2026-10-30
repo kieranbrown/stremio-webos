@@ -16,9 +16,11 @@ Installing through Developer Mode or Homebrew Channel does not remove these runt
 
 ## Prerequisites
 
-1. Install the [webOS ares CLI](https://www.npmjs.com/package/@webosose/ares-cli) — `npm i -g @webosose/ares-cli` (requires Node.js 20 for SSH compatibility)
+1. Install the [webOS CLI](https://www.npmjs.com/package/@webos-tools/cli) — `npm i -g @webos-tools/cli@3.2.6` (requires Node.js 20 or later; releases use Node.js 24). If you have the old CLI installed, remove it first with `npm uninstall -g @webosose/ares-cli`.
 2. Either enable [Developer Mode](https://webostv.developer.lge.com/develop/getting-started/developer-mode-app) on your TV, or have [Homebrew Channel](https://github.com/webosbrew/webos-homebrew-channel) installed
 3. Configure your TV as a device — `ares-setup-device`
+
+Use `@webos-tools/cli` to package the app. The older `@webosose/ares-cli` can write zero timestamps into the IPK, causing `-5: ipk verified failed` on older webOS versions. `make package` checks the archive timestamps before allowing installation or publication.
 
 > **Note:** Developer Mode expires after 1000 hours and any sideloaded apps will be uninstalled. Rooted TVs with Homebrew Channel do not have this limitation.
 
