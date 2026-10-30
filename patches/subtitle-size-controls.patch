@@ -1,0 +1,31 @@
+--- main.js
++++ main.js
+@@ -2948,7 +2948,7 @@
+             const o = (0, n(289).aJ)() > 0,
+                 i = r,
+-                a = o ? [100, 125, 150, 175, 200] : [25, 50, 75, 100, 125, 150, 175, 200, 250],
+-                l = a[1] - a[0],
++                a = o ? [50, 75, 85, 100, 125, 150, 175, 200] : [25, 50, 75, 100, 125, 150, 175, 200, 250],
++                l = o ? 5 : a[1] - a[0],
+                 s = a[0],
+                 c = a[a.length - 1],
+                 u = ["rgba(0, 0, 0, 0)", "rgb(0, 0, 0)", "rgb(255, 255, 255)", "rgb(255, 255, 0)", "rgb(255, 0, 0)", "rgb(0, 255, 0)", "rgb(0, 0, 255)"],
+--- video.chunk.js
++++ video.chunk.js
+@@ -16295,6 +16295,6 @@
+                         null !== g && null !== f.time && isFinite(f.time) && (h.style.bottom = E + "%", h.style.opacity = L, u.render(g, f.time - T).forEach((function(e) {
+                             e.style.display = "inline-block", e.style.padding = "0.2em", e.style.whiteSpace = "pre-wrap";
+                             var t = window.screen720p ? 1.538 : 1;
+-                            e.style.fontSize = Math.floor(b / 25 * t) + "vmin", e.style.color = S, e.style.backgroundColor = A, e.style.textShadow = "-0.15rem -0.15rem 0.15rem " + k + ", 0px -0.15rem 0.15rem " + k + ", 0.15rem -0.15rem 0.15rem " + k + ", -0.15rem 0px 0.15rem " + k + ", 0.15rem 0px 0.15rem " + k + ", -0.15rem 0.15rem 0.15rem " + k + ", 0px 0.15rem 0.15rem " + k + ", 0.15rem 0.15rem 0.15rem " + k, h.appendChild(e), h.appendChild(document.createElement("br"))
++                            e.style.fontSize = b / 25 * t + "vmin", e.style.color = S, e.style.backgroundColor = A, e.style.textShadow = "-0.15rem -0.15rem 0.15rem " + k + ", 0px -0.15rem 0.15rem " + k + ", 0.15rem -0.15rem 0.15rem " + k + ", -0.15rem 0px 0.15rem " + k + ", 0.15rem 0px 0.15rem " + k + ", -0.15rem 0.15rem 0.15rem " + k + ", 0px 0.15rem 0.15rem " + k + ", 0.15rem 0.15rem 0.15rem " + k, h.appendChild(e), h.appendChild(document.createElement("br"))
+                         })))
+                     }
+@@ -21407,7 +21407,7 @@
+                         case "subtitlesSize":
+                             if (null !== t && isFinite(t)) {
+                                 f = t;
+-                                var i = (u = Math.max(0, parseInt(f, 10))) <= 100 ? 1 : u <= 125 ? 2 : u <= 150 ? 3 : u <= 200 && 4;
++                                var i = (u = Math.max(0, parseInt(f, 10))) < 100 ? 0 : u <= 100 ? 1 : u <= 125 ? 2 : u <= 150 ? 3 : u <= 200 && 4;
+                                 !1 === i && (i = 1), b.font_size = i, A.mediaId && l({
+                                     method: "setSubtitleFontSize",
+                                     parameters: {
