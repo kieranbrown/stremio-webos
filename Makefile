@@ -9,11 +9,13 @@ FFMPEG_SHA256 = f4149bb2b0784e30e99bdda85471c9b5930d3402014e934a5098b41d0f7201b1
 VERSION = $(shell python3 -c "import json; print(json.load(open('app/appinfo.json'))['version'])")
 IPK = $(APP_ID)_$(VERSION)_all.ipk
 
-.PHONY: build package deploy launch restart clean
+.PHONY: build check package deploy launch restart clean
 
-service/server.js:
+service/server.js: scripts/patch-server.py
 	@echo "==> Downloading Stremio server v$(SERVER_VERSION)..."
-	@curl -so $@ "https://dl.strem.io/server/v$(SERVER_VERSION)/webos/server.js"
+	@curl --fail --location --silent --show-error -o $@.download "https://dl.strem.io/server/v$(SERVER_VERSION)/webos/server.js"
+	@python3 scripts/patch-server.py $@.download $@
+	@rm -f $@.download
 
 service/bin/ffmpeg service/bin/ffprobe:
 	@echo "==> Downloading static ffmpeg+ffprobe v$(FFMPEG_VERSION) (aarch64)..."
@@ -40,6 +42,9 @@ build: service/server.js service/bin/ffmpeg service/bin/ffprobe
 	done
 	@echo "==> Build complete"
 
+check: service/server.js
+	node --test tests/server-stats.test.cjs
+
 package: build
 	@rm -f $(IPK)
 	@ares-package --no-minify app service -o .
@@ -60,4 +65,4 @@ restart:
 	@ares-launch --device $(DEVICE) $(APP_ID)
 
 clean:
-	rm -rf service/www service/server.js service/bin *.ipk
+	rm -rf service/www service/server.js service/server.js.download service/bin *.ipk

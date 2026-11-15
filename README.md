@@ -6,6 +6,10 @@ The official Stremio app has a bug where it always plays the first audio track i
 
 Built from [Stremio Theater v1.9.2](https://github.com/NoobyGains/stremio-vidaa-tv) with the official Stremio streaming server.
 
+## Streaming statistics
+
+The build corrects the bundled server’s upload-speed field and exposes connected seeders. Seeder detection allows the peer bitfield’s byte padding while still requiring every actual torrent piece. `make check` exercises the generated server’s statistics and seeder-check functions without starting a server or downloading media.
+
 ## Compatibility
 
 This build targets **LG TVs from 2020 onward running webOS 5.0 or later**, matching the model-year baseline for [Stremio's official LG app](https://www.stremio.com/downloads). This community build has not been tested on every model.
@@ -46,6 +50,7 @@ Replace the default device name if needed: `make deploy DEVICE=myTV`
 
 ```sh
 make build     # Download dependencies + build (no install)
+make check     # Check bundled server statistics using controlled fixtures
 make package   # Build + create IPK
 make restart   # Close + relaunch on TV
 make clean     # Remove build artifacts
