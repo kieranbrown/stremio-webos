@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stremio — Playback setup</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c0b11;color:#f6f3ff;font:24px Arial,sans-serif}main{max-width:1100px;margin:5vh auto;padding:35px}h1{font-size:44px;margin:0 0 16px}p{color:#bcb6cd;line-height:1.5}label{display:block;margin:24px 0 10px}select,input,button{font:inherit;padding:16px;border:2px solid #544a6d;border-radius:10px;background:#211b30;color:#fff}select,input{width:100%}button{margin:28px 15px 0 0;cursor:pointer}button.primary{background:#7151d9}input:focus,select:focus,button:focus{outline:4px solid #b8a1ff;outline-offset:4px}#status{min-height:45px;color:#b7e4cb}small{display:block;color:#bcb6cd;line-height:1.5;margin-top:12px}[hidden]{display:none!important}
+main{margin:3vh auto;padding:25px}#discovery-results{max-height:23vh;overflow-y:auto;margin-top:16px}#discovery-results button{display:block;width:100%;text-align:left;margin:10px 0;padding:12px 16px;font-size:22px}#discover,#stop-discovery{margin-top:18px}#discovery-status{font-size:20px;min-height:28px;margin:14px 0 0}
+</style></head><body><main>
+<h1>Stremio</h1><p>Choose where torrents download. Your TV plays the video.</p>
+<label for="mode">Streaming server</label><select id="mode"><option value="tv">TV — standalone playback</option><option value="external">External server — Mac, Windows PC, or NAS</option></select>
+<section id="external" hidden><label for="url">Streaming server address</label><input id="url" type="url" placeholder="http://SERVER-LAN-IP:11470" autocomplete="off" spellcheck="false"><button id="discover">Discover servers</button><button id="stop-discovery" hidden>Stop search</button><p id="discovery-status" role="status" aria-live="polite"></p><div id="discovery-results"></div><small>Keep the server running on your personal computer or NAS. Choose its disk-cache folder there.</small></section>
+
+<button id="save" class="primary">Save and continue</button><button id="check">Save and test connection</button><button id="cancel">Back</button>
+<p id="status" role="status"></p><small>Return here from Settings → Server. External-server cache settings remain controlled on that computer.</small>
+</main><script src="setup.js"></script></body></html>

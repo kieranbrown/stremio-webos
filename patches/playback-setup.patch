@@ -1,0 +1,15 @@
+--- settings.chunk.js
++++ settings.chunk.js
+@@ -574,10 +574,10 @@
+                                 onClick: () => f.reload()
+                             }]
+                         }, {
+-                            label: () => m.settings().streamingServerUrl,
++                            label: () => window.__PLAYBACK_BACKEND_LABEL__ || m.settings().streamingServerUrl,
+                             options: [{
+                                 label: "EDIT_URL",
+-                                onClick: o
++                                onClick: () => window.__openPlaybackSetup ? window.__openPlaybackSetup() : o()
+                             }]
+                         }, {
+                             label: () => `v${f.version()}`,
