@@ -3,6 +3,7 @@ APP_ID = io.strem.tv
 SERVER_VERSION = 4.20.17
 VIDAA_REF = 208d437e5138adff0865443a2a88c4fcee84ece6
 VIDAA_REPO = https://github.com/NoobyGains/stremio-vidaa-tv/archive/$(VIDAA_REF).tar.gz
+VIDAA_SHA256 = 1882d5aee965f7ee18353b5977ced335f05257751e83f4adc7516c5f74415bd2
 FFMPEG_VERSION = 7.0.2
 FFMPEG_URL = https://johnvansickle.com/ffmpeg/releases/ffmpeg-$(FFMPEG_VERSION)-arm64-static.tar.xz
 FFMPEG_SHA256 = f4149bb2b0784e30e99bdda85471c9b5930d3402014e934a5098b41d0f7201b1
@@ -28,15 +29,17 @@ service/bin/ffmpeg service/bin/ffprobe:
 build: service/server.js service/bin/ffmpeg service/bin/ffprobe
 	@echo "==> Downloading Vidaa frontend..."
 	@rm -rf /tmp/stremio-vidaa-build && mkdir -p /tmp/stremio-vidaa-build
-	@curl -sL $(VIDAA_REPO) | tar xz --strip-components=1 -C /tmp/stremio-vidaa-build
+	@curl --fail --location --silent --show-error -o /tmp/stremio-vidaa-build/frontend.tar.gz "$(VIDAA_REPO)"
+	@echo "$(VIDAA_SHA256)  /tmp/stremio-vidaa-build/frontend.tar.gz" | shasum -a 256 -c -
+	@tar xzf /tmp/stremio-vidaa-build/frontend.tar.gz --strip-components=1 -C /tmp/stremio-vidaa-build
 	@echo "==> Building service/www/..."
 	@rm -rf service/www && mkdir -p service/www
 	@cp /tmp/stremio-vidaa-build/*.js /tmp/stremio-vidaa-build/*.wasm /tmp/stremio-vidaa-build/*.ttf /tmp/stremio-vidaa-build/*.png /tmp/stremio-vidaa-build/*.svg service/www/
 	@cp service/index.html service/www/index.html
 	@rm -rf /tmp/stremio-vidaa-build
-	@for p in patches/*.patch; do \
+	@set -e; for p in patches/*.patch; do \
 		echo "    Applying $$(basename $$p)..."; \
-		patch -p0 -d service/www < "$$p"; \
+		patch --batch --fuzz=0 -p0 -d service/www < "$$p"; \
 	done
 	@echo "==> Build complete"
 
