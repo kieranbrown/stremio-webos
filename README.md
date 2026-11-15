@@ -6,6 +6,10 @@ The official Stremio app has a bug where it always plays the first audio track i
 
 Built from [Stremio Theater v1.9.2](https://github.com/NoobyGains/stremio-vidaa-tv) with the official Stremio streaming server.
 
+## Native audio-track updates
+
+Native `addtrack` events are debounced for 100 ms so a burst rebuilds the track list and requests server metadata once, while retaining label enrichment and preferred-language selection. After `make build`, run `node --test tests/audio-track-events.test.cjs` for deterministic event-burst regression checks against the generated handler.
+
 ## Compatibility
 
 This build targets **LG TVs from 2020 onward running webOS 5.0 or later**, matching the model-year baseline for [Stremio's official LG app](https://www.stremio.com/downloads). This community build has not been tested on every model.

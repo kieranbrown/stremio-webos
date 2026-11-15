@@ -125,13 +125,15 @@
                                          }
                                          break;
                                      case "volume":
-@@ -21049,7 +21049,68 @@
+@@ -21049,7 +21049,70 @@
                      G("buffering"), G("buffered")
                  }, A.onloadeddata = function() {
                      G("buffering"), G("buffered")
 -                }, A.onloadedmetadata = function() {
 +                }, A.audioTracks && A.audioTracks.addEventListener && A.audioTracks.addEventListener("addtrack", function() {
-+                setTimeout(function() {
++                // Rebuild once after a burst of native addtrack events.
++                clearTimeout(A.__trackUpdateTimer);
++                A.__trackUpdateTimer = setTimeout(function() {
 +                    if (A.audioTracks && A.audioTracks.length > 0) {
 +                        T = [];
 +                        Array.from(A.audioTracks).forEach(function(e, t) {
