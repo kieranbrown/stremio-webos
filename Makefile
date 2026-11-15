@@ -9,7 +9,7 @@ FFMPEG_SHA256 = f4149bb2b0784e30e99bdda85471c9b5930d3402014e934a5098b41d0f7201b1
 VERSION = $(shell python3 -c "import json; print(json.load(open('app/appinfo.json'))['version'])")
 IPK = $(APP_ID)_$(VERSION)_all.ipk
 
-.PHONY: build package deploy launch restart clean
+.PHONY: build check package deploy launch restart clean
 
 service/server.js:
 	@echo "==> Downloading Stremio server v$(SERVER_VERSION)..."
@@ -33,6 +33,7 @@ build: service/server.js service/bin/ffmpeg service/bin/ffprobe
 	@rm -rf service/www && mkdir -p service/www
 	@cp /tmp/stremio-vidaa-build/*.js /tmp/stremio-vidaa-build/*.wasm /tmp/stremio-vidaa-build/*.ttf /tmp/stremio-vidaa-build/*.png /tmp/stremio-vidaa-build/*.svg service/www/
 	@cp service/index.html service/www/index.html
+	@cp service/setup.html service/setup.js service/external-server.js service/www/
 	@rm -rf /tmp/stremio-vidaa-build
 	@for p in patches/*.patch; do \
 		echo "    Applying $$(basename $$p)..."; \
@@ -40,7 +41,10 @@ build: service/server.js service/bin/ffmpeg service/bin/ffprobe
 	done
 	@echo "==> Build complete"
 
-package: build
+check:
+	node --test tests/*.test.cjs
+
+package: build check
 	@rm -f $(IPK)
 	@ares-package --no-minify app service -o .
 	@python3 scripts/check-ipk.py $(IPK)

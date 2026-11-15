@@ -14,6 +14,16 @@ This build targets **LG TVs from 2020 onward running webOS 5.0 or later**, match
 
 Installing through Developer Mode or Homebrew Channel does not remove these runtime requirements. Supporting older TVs would require compatibility work on both the frontend and the streaming server.
 
+## External streaming server
+
+On supported modern webOS runtimes, **Settings → Server → Edit URL** opens Playback setup. Keep standalone TV playback, or select a compatible Stremio server running on a Mac, Windows PC, or NAS. Use **Discover servers** or enter the server URL, then save and test the connection.
+
+The TV remains the browsing and viewing interface. The external backend handles transfers and its configured disk cache, allowing use of the computer's internal disk or attached HDD/SSD. It can reuse the server included in an existing Stremio desktop installation; starting the same video on the computer is unnecessary.
+
+This adds server selection/routing, cancellable LAN discovery, bounded TV read-ahead, disk-cache prefetch, pause/screensaver keep-alive, and cleanup after playback. The feature requires Node.js 18+ on the TV; older runtimes retain the original local implementation and settings flow. It was developed and tested in a community fork on an LG C6/webOS 26 with an official macOS Stremio backend. Windows and other TV models still need direct validation.
+
+See [external-server setup and behavior](docs/EXTERNAL-SERVERS.md) for prerequisites, limits, and the exact validation scope.
+
 ## Prerequisites
 
 1. Install the [webOS CLI](https://www.npmjs.com/package/@webos-tools/cli) — `npm i -g @webos-tools/cli@3.2.6` (requires Node.js 20 or later; releases use Node.js 24). If you have the old CLI installed, remove it first with `npm uninstall -g @webosose/ares-cli`.
@@ -46,6 +56,7 @@ Replace the default device name if needed: `make deploy DEVICE=myTV`
 
 ```sh
 make build     # Download dependencies + build (no install)
+make check     # Run external-server integration and lifecycle tests
 make package   # Build + create IPK
 make restart   # Close + relaunch on TV
 make clean     # Remove build artifacts
