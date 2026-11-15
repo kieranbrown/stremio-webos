@@ -51,6 +51,10 @@ make restart   # Close + relaunch on TV
 make clean     # Remove build artifacts
 ```
 
+## Build verification
+
+The frontend archive is checked against its pinned SHA-256 before extraction, and each patch must apply without fuzz. A failed download, checksum, or patch stops the build. When updating `VIDAA_REF`, review the archive and update `VIDAA_SHA256` together. Run `python3 -m unittest discover -s tests -p "test_build.py"` for local fixture checks covering success, checksum rejection, patch failure propagation, and fuzz rejection.
+
 ## Auto-start on input select
 
 On rooted TVs, you can register Stremio as an input source so it appears in the TV's input list and can auto-launch:
