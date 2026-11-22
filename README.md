@@ -1,5 +1,12 @@
 # Stremio for webOS
 
+> [!IMPORTANT]
+> **This repository is archived and no longer maintained.**
+>
+> This build existed to fix default audio language selection on LG TVs. The official Stremio app for LG TVs now includes that fix: it picks your preferred audio language when playback starts and switches to the selected track correctly. See [Stremio Tech Update #89 – Stremio Smart TV Update](https://blog.stremio.com/stremio-tech-update-89-stremio-smart-tv-update/).
+>
+> Please install the official Stremio app from the LG Content Store instead.
+
 Custom Stremio app for LG webOS TVs with working default audio language selection.
 
 The official Stremio app has a bug where it always plays the first audio track in the list, ignoring the user's preferred audio language setting. This build fixes that by reading tracks from the TV's native media pipeline and automatically selecting the track matching your configured language.
